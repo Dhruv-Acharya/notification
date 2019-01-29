@@ -1,16 +1,12 @@
-package com.contest.notification.listener;
-
+package com.contest.notification.consumer;
 
 import com.contest.notification.dto.Header;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Service;
 
-@Service
-public class ShareConsumer implements Consumer{
-
-    @KafkaListener(topics="${share.kafka.topic}",containerFactory = "headerConcurrentKafkaListenerContainerFactory")
+public class GenericConsumer implements Consumer {
+    @KafkaListener(topics="${generic.kafka.topic}",containerFactory = "headerConcurrentKafkaListenerContainerFactory")
     public void receiveMessage(Header header) {
         LOGGER.info("Received:"+ header);
     }
@@ -20,6 +16,6 @@ public class ShareConsumer implements Consumer{
         return null;
     }
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ShareConsumer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GenericConsumer.class);
 
 }
