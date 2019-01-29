@@ -42,13 +42,23 @@ public class Header {
         this.timeStamp = timeStamp;
     }
 
-
-
     public NotificationTypeBody getNotificationTypeBody() {
         return notificationTypeBody;
     }
 
     public void setNotificationTypeBody(NotificationTypeBody notificationTypeBody) {
         this.notificationTypeBody = notificationTypeBody;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Header{");
+        sb.append("notificationType=").append(notificationType);
+        sb.append(", receiver='").append(receiver).append('\'');
+        sb.append(", timeStamp='").append(timeStamp).append('\'');
+        sb.append(", notificationMedium=").append(notificationMedium);
+        sb.append(", notificationTypeBody=").append(notificationTypeBody);
+        sb.append('}');
+        return sb.toString();
     }
 }

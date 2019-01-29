@@ -28,4 +28,14 @@ public class Share implements NotificationTypeBody {
     public void setSharerId(String sharerId) {
         this.sharerId = sharerId;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Share{");
+        sb.append("ownerId='").append(ownerId).append('\'');
+        sb.append(", postId='").append(postId).append('\'');
+        sb.append(", sharerId='").append(sharerId).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
