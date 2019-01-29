@@ -1,18 +1,29 @@
 package com.contest.notification.dto;
 
+import com.contest.notification.notificationEnum.NotificationMedium;
+import com.contest.notification.notificationEnum.NotificationType;
+
 public class Header {
-    private int notificationType;
+    private NotificationType notificationType;
     private String receiver;
     private String timeStamp;
-    private String type;
+    private NotificationMedium notificationMedium;
     private NotificationTypeBody notificationTypeBody;
 
-    public int getNotificationType() {
+    public NotificationType getNotificationType() {
         return notificationType;
     }
 
-    public void setNotificationType(int notificationType) {
+    public void setNotificationType(NotificationType notificationType) {
         this.notificationType = notificationType;
+    }
+
+    public NotificationMedium getNotificationMedium() {
+        return notificationMedium;
+    }
+
+    public void setNotificationMedium(NotificationMedium notificationMedium) {
+        this.notificationMedium = notificationMedium;
     }
 
     public String getReceiver() {
@@ -31,13 +42,7 @@ public class Header {
         this.timeStamp = timeStamp;
     }
 
-    public String getType() {
-        return type;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public NotificationTypeBody getNotificationTypeBody() {
         return notificationTypeBody;

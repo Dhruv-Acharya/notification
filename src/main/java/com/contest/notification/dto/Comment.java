@@ -1,8 +1,19 @@
 package com.contest.notification.dto;
 
+import com.contest.notification.notificationEnum.PostComment;
+
 public class Comment implements NotificationTypeBody {
     private String postId;
     private String commenter;
+    private PostComment postComment;
+
+    public PostComment getPostComment() {
+        return postComment;
+    }
+
+    public void setPostComment(PostComment postComment) {
+        this.postComment = postComment;
+    }
 
     public String getPostId() {
         return postId;
