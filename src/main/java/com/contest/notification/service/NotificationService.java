@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface NotificationService {
 
-    NotificationData add (NotificationData notificationData);
+    NotificationData addNotification (NotificationData notificationData);
     List<NotificationData> findByUserId(String userId);
 
 }
