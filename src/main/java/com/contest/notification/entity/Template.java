@@ -1,6 +1,7 @@
 package com.contest.notification.entity;
 
 
+import com.contest.notification.notificationEnum.NotificationType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,7 +16,7 @@ public class Template {
     @Id
     private String templateId;
     @NotNull
-    private String templateName;
+    private int templateName;
     @NotNull
     private String template;
 
@@ -27,11 +28,11 @@ public class Template {
         this.templateId = templateId;
     }
 
-    public String getTemplateName() {
+    public int getTemplateName() {
         return templateName;
     }
 
-    public void setTemplateName(String templateName) {
+    public void setTemplateName(int templateName) {
         this.templateName = templateName;
     }
 
