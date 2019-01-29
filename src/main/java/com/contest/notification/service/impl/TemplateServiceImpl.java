@@ -14,7 +14,7 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public Template addTemplate(Template template) {
-        return templateRepository.save(template);
+            return templateRepository.save(template);
     }
 
     @Override

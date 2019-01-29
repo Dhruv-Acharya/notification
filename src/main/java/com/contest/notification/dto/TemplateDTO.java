@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 public class TemplateDTO {
 
     private String templateId;
-    private String templateName;
+    private int templateName;
     private String template;
 
     public String getTemplateId() {
@@ -16,11 +16,11 @@ public class TemplateDTO {
         this.templateId = templateId;
     }
 
-    public String getTemplateName() {
+    public int getTemplateName() {
         return templateName;
     }
 
-    public void setTemplateName(String templateName) {
+    public void setTemplateName(int templateName) {
         this.templateName = templateName;
     }
 
