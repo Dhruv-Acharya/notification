@@ -30,4 +30,14 @@ public class Comment implements NotificationTypeBody {
     public void setCommenter(String commenter) {
         this.commenter = commenter;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Comment{");
+        sb.append("postId='").append(postId).append('\'');
+        sb.append(", commenter='").append(commenter).append('\'');
+        sb.append(", postComment=").append(postComment);
+        sb.append('}');
+        return sb.toString();
+    }
 }

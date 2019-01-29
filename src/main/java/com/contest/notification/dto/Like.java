@@ -30,4 +30,14 @@ public class Like implements NotificationTypeBody {
     public void setSender(String sender) {
         this.sender = sender;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Like{");
+        sb.append("postId='").append(postId).append('\'');
+        sb.append(", sender='").append(sender).append('\'');
+        sb.append(", postComment=").append(postComment);
+        sb.append('}');
+        return sb.toString();
+    }
 }
