@@ -1,8 +1,8 @@
 package com.contest.notification.dto;
 
 public class Result implements NotificationTypeBody {
-    private String uid;
-    private String score;
+    private String userId;
+    private double score;
     private String rank;
     private String url;
     private Contest contest;
@@ -15,19 +15,19 @@ public class Result implements NotificationTypeBody {
         this.contest = contest;
     }
 
-    public String getUid() {
-        return uid;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(double score) {
         this.score = score;
     }
 
