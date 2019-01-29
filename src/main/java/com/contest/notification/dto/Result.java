@@ -46,4 +46,16 @@ public class Result implements NotificationTypeBody {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Result{");
+        sb.append("userId='").append(userId).append('\'');
+        sb.append(", score=").append(score);
+        sb.append(", rank='").append(rank).append('\'');
+        sb.append(", url='").append(url).append('\'');
+        sb.append(", contest=").append(contest);
+        sb.append('}');
+        return sb.toString();
+    }
 }
