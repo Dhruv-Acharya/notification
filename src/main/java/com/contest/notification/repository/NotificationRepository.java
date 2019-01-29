@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface NotificationRepository extends MongoRepository<NotificationData,String> {
 
-    List<NotificationData> findByUserId(String userId);
+    List<NotificationData> findByReceiver(String userId);
 }
