@@ -23,7 +23,7 @@ public class UserController {
         User user = new User();
         BeanUtils.copyProperties(userDTO, user);
         User createdUser = userService.addUser(user);
-        return new ResponseEntity<String>(createdUser.getUserId(),HttpStatus.OK);
+        return new ResponseEntity<>(createdUser.getUserId(),HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
@@ -43,16 +43,14 @@ public class UserController {
     @RequestMapping(value = "/setAndroidDeviceId/{userId}/{androidDeviceId}", method = RequestMethod.PUT)
     public ResponseEntity<String> setAndroidDeviceId(@PathVariable(value = "userId") String userId, @PathVariable(value = "androidDeviceId") String androidDeviceId) {
         User user = userService.findOne(userId);
-        user.setAndroidDeviceId(androidDeviceId);
-        User updatedUser = userService.updateUser(user);
+        User updatedUser = userService.setAndroidDeviceId(user, androidDeviceId);
         return new ResponseEntity<String>(updatedUser.getUserId(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/setBrowserDeviceId/{userId}/{browserDeviceId}", method = RequestMethod.PUT)
     public ResponseEntity<String> setBrowserDeviceId(@PathVariable(value = "userId") String userId, @PathVariable(value = "browserDeviceId") String browserDeviceId) {
         User user = userService.findOne(userId);
-        user.setBrowserDeviceId(browserDeviceId);
-        User updatedUser = userService.updateUser(user);
+        User updatedUser = userService.setBrowserDeviceId(user, browserDeviceId);
         return new ResponseEntity<String>(updatedUser.getUserId(), HttpStatus.OK);
     }
 }
