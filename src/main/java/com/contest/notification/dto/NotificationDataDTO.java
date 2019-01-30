@@ -1,37 +1,16 @@
-package com.contest.notification.entity;
+package com.contest.notification.dto;
 
-
-import com.contest.notification.dto.NotificationTypeBody;
 import com.contest.notification.notificationEnum.NotificationMedium;
 import com.contest.notification.notificationEnum.NotificationType;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotNull;
-
-@Document(collection = NotificationData.COLLECTION_NAME )
-public class NotificationData {
-
-    public static final String COLLECTION_NAME = "notificationdata";
-    @Id
+public class NotificationDataDTO {
     private String notificationId;
-    @NotNull
     private NotificationType notificationType;
-    @NotNull
     private String receiver;
-    @NotNull
     private String timeStamp;
-    @NotNull
     private NotificationMedium notificationMedium;
-    @NotNull
     private NotificationTypeBody notificationTypeBody;
-
     private boolean isRead = false;
-
-
-    public static String getCollectionName() {
-        return COLLECTION_NAME;
-    }
 
     public String getNotificationId() {
         return notificationId;
@@ -79,5 +58,13 @@ public class NotificationData {
 
     public void setNotificationTypeBody(NotificationTypeBody notificationTypeBody) {
         this.notificationTypeBody = notificationTypeBody;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 }

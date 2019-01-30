@@ -1,5 +1,6 @@
 package com.contest.notification.entity;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
@@ -10,6 +11,7 @@ public class User {
 
     public static final String COLLECTION_NAME = "user";
 
+    @Id
     @NotNull
     private String userId;
     @NotNull
