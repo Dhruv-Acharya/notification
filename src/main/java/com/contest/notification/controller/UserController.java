@@ -5,6 +5,7 @@ import com.contest.notification.entity.User;
 import com.contest.notification.exception.DeviceIdNotFoundException;
 import com.contest.notification.exception.EmailNotFoundException;
 import com.contest.notification.exception.UserNotFoundException;
+import com.contest.notification.exception.UsernameFoundException;
 import com.contest.notification.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,14 @@ public class UserController {
     UserService userService;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO) throws EmailNotFoundException{
+    public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO) throws EmailNotFoundException, UsernameFoundException{
         User user = new User();
         BeanUtils.copyProperties(userDTO, user);
         if (user.getEmailId() == null) {
             throw new EmailNotFoundException();
+        }
+        if (user.getUserName() == null) {
+            throw new UsernameFoundException();
         }
         User createdUser = userService.addUser(user);
         return new ResponseEntity<>(createdUser.getUserId(),HttpStatus.OK);
@@ -36,12 +40,15 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
-    public ResponseEntity<String> updateUser(@PathVariable(value = "userId") String userId, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<String> updateUser(@PathVariable(value = "userId") String userId, @RequestBody UserDTO userDTO) throws EmailNotFoundException, UsernameFoundException{
         User user = new User();
         BeanUtils.copyProperties(userDTO, user);
         user.setUserId(userId);
         if (user.getEmailId() == null) {
             throw new EmailNotFoundException();
+        }
+        if (user.getUserName() == null) {
+            throw new UsernameFoundException();
         }
         User updatedUser = userService.updateUser(user);
         return new ResponseEntity<String>(updatedUser.getUserId(), HttpStatus.OK);
@@ -58,8 +65,11 @@ public class UserController {
     }
 
     @RequestMapping(value = "/setBrowserDeviceId/{userId}/{browserDeviceId}", method = RequestMethod.PUT)
-    public ResponseEntity<String> setBrowserDeviceId(@PathVariable(value = "userId") String userId, @PathVariable(value = "browserDeviceId") String browserDeviceId) {
+    public ResponseEntity<String> setBrowserDeviceId(@PathVariable(value = "userId") String userId, @PathVariable(value = "browserDeviceId") String browserDeviceId) throws UserNotFoundException ,DeviceIdNotFoundException{
         User user = userService.findOne(userId);
+        if(user == null) {
+            throw new UserNotFoundException();
+        }
         User updatedUser = userService.setBrowserDeviceId(user, browserDeviceId);
         return new ResponseEntity<String>(updatedUser.getUserId(), HttpStatus.OK);
     }
