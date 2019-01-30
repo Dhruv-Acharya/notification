@@ -1,10 +1,7 @@
-package com.contest.notification.listener;
+package com.contest.notification.consumer;
 
 
 import com.contest.notification.dto.Header;
-import com.contest.notification.notificationEnum.NotificationMedium;
-import com.contest.notification.notificationMedium.Sender;
-import com.contest.notification.notificationMedium.SenderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;

@@ -1,4 +1,4 @@
-package com.contest.notification.listener;
+package com.contest.notification.consumer;
 
 
 import com.contest.notification.dto.Header;
@@ -8,9 +8,9 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SubscriptionNoticeConsumer implements Consumer{
+public class ResultConsumer implements Consumer{
 
-    @KafkaListener(topics="${subscriptionNotice.kafka.topic}",containerFactory = "headerConcurrentKafkaListenerContainerFactory")
+    @KafkaListener(topics="${result.kafka.topic}",containerFactory = "headerConcurrentKafkaListenerContainerFactory")
     public void receiveMessage(Header header) {
         LOGGER.info("Received:"+ header);
     }
@@ -20,6 +20,6 @@ public class SubscriptionNoticeConsumer implements Consumer{
         return null;
     }
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SubscriptionNoticeConsumer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResultConsumer.class);
 
 }

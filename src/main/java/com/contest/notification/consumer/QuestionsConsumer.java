@@ -1,4 +1,4 @@
-package com.contest.notification.listener;
+package com.contest.notification.consumer;
 
 
 import com.contest.notification.dto.Header;
