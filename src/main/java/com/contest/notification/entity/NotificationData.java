@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Document(collection = NotificationData.COLLECTION_NAME )
 public class NotificationData {
@@ -22,7 +23,7 @@ public class NotificationData {
     @NotNull
     private String timeStamp;
     @NotNull
-    private NotificationMedium notificationMedium;
+    private List<NotificationMedium> notificationMedium;
     @NotNull
     private NotificationTypeBody notificationTypeBody;
 
@@ -65,12 +66,20 @@ public class NotificationData {
         this.timeStamp = timeStamp;
     }
 
-    public NotificationMedium getNotificationMedium() {
+    public List<NotificationMedium> getNotificationMedium() {
         return notificationMedium;
     }
 
-    public void setNotificationMedium(NotificationMedium notificationMedium) {
+    public void setNotificationMedium(List<NotificationMedium> notificationMedium) {
         this.notificationMedium = notificationMedium;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 
     public NotificationTypeBody getNotificationTypeBody() {
