@@ -1,6 +1,6 @@
 package com.contest.notification.dto;
 
-public class Result implements NotificationTypeBody {
+public class Result extends NotificationBodyAbstractClass {
     private String userId;
     private double score;
     private String rank;

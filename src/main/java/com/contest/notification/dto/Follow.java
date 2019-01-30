@@ -1,6 +1,6 @@
 package com.contest.notification.dto;
 
-public class Follow implements NotificationTypeBody {
+public class Follow extends NotificationBodyAbstractClass {
     private String sender;
 
     public String getSender() {

@@ -1,6 +1,6 @@
 package com.contest.notification.dto;
 
-public class Generic implements NotificationTypeBody {
+public class Generic extends NotificationBodyAbstractClass {
     private String message;
 
     public String getMessage() {

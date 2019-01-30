@@ -2,7 +2,7 @@ package com.contest.notification.dto;
 
 import com.contest.notification.notificationEnum.PostComment;
 
-public class Comment implements NotificationTypeBody {
+public class Comment extends NotificationBodyAbstractClass {
     private String postId;
     private String commenter;
     private PostComment postComment;
