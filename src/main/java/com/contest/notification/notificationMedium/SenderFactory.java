@@ -5,6 +5,8 @@ import com.contest.notification.notificationMedium.Mail.MailSender;
 import com.contest.notification.notificationMedium.Web.WebNotificationSender;
 import com.contest.notification.notificationMedium.android.AndroidNotificationSender;
 
+import java.util.List;
+
 public class SenderFactory {
     Sender sender;
     public Sender getInstance(NotificationMedium notificationMedium){

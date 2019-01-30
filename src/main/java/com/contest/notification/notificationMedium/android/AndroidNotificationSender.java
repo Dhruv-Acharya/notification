@@ -1,6 +1,7 @@
 package com.contest.notification.notificationMedium.android;
 
 import com.contest.notification.dto.Header;
+import com.contest.notification.entity.User;
 import com.contest.notification.notificationMedium.Sender;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,10 +18,10 @@ public class AndroidNotificationSender implements Sender {
     AndroidPushNotificationService androidPushNotificationService;
 
     @Override
-    public void send(Header header, String message) {
+    public void send(Header header, String message, String title, User user) {
         JSONObject body  = new JSONObject();
         try {
-            body.put("to", "/topics/" + TOPIC);
+            body.put("to", user.getAndroidDeviceId());
             body.put("priority", "high");
 
         } catch (JSONException e) {
@@ -31,8 +32,8 @@ public class AndroidNotificationSender implements Sender {
 
         JSONObject notification = new JSONObject();
         try {
-            notification.put("title", "JSA Notification");
-            notification.put("body", "Happy Message!");
+            notification.put("title", title);
+            notification.put("body", message);
 
 
 

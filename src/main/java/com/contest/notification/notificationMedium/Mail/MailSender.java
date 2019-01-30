@@ -1,6 +1,7 @@
 package com.contest.notification.notificationMedium.Mail;
 
 import com.contest.notification.dto.Header;
+import com.contest.notification.entity.User;
 import com.contest.notification.notificationMedium.Sender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,14 +15,14 @@ public class MailSender implements Sender {
     private JavaMailSender sender;
 
     @Override
-    public void send(Header header, String message) {
+    public void send(Header header, String message, String title, User user) {
         MimeMessage mimeMessage = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 
         try {
-            helper.setTo(header.getReceiver());
+            helper.setTo(user.getEmailId());
             helper.setText(message);
-            helper.setSubject("Mail From Spring Boot");
+            helper.setSubject(title);
         } catch (MessagingException e) {
             e.printStackTrace();
         }

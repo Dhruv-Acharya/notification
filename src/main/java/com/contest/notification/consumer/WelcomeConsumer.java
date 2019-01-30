@@ -10,6 +10,7 @@ import com.contest.notification.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +23,9 @@ public class WelcomeConsumer implements Consumer {
     @Autowired
     UserService userService;
 
-    @Override
+    @KafkaListener(topics="${welcome.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
     public void receiveMessage(Header header) {
-
+        LOGGER.info("Received:"+ header);
     }
 
     @Override
