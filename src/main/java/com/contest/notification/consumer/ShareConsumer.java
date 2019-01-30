@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ShareConsumer implements Consumer{
 
-    @KafkaListener(topics="${share.kafka.topic}",containerFactory = "headerConcurrentKafkaListenerContainerFactory")
+    @KafkaListener(topics="${share.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
     public void receiveMessage(Header header) {
         LOGGER.info("Received:"+ header);
     }
