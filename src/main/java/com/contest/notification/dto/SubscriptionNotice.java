@@ -3,7 +3,10 @@ package com.contest.notification.dto;
 import java.util.List;
 
 public class SubscriptionNotice implements NotificationTypeBody{
+
     List<String> followerIds;
+    private String contestId;
+    private String contestName;
 
     public List<String> getFollowerIds() {
         return followerIds;
@@ -11,6 +14,22 @@ public class SubscriptionNotice implements NotificationTypeBody{
 
     public void setFollowerIds(List<String> followerIds) {
         this.followerIds = followerIds;
+    }
+
+    public String getContestId() {
+        return contestId;
+    }
+
+    public void setContestId(String contestId) {
+        this.contestId = contestId;
+    }
+
+    public String getContestName() {
+        return contestName;
+    }
+
+    public void setContestName(String contestName) {
+        this.contestName = contestName;
     }
 
     @Override

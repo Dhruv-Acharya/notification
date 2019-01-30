@@ -20,10 +20,18 @@ public class TemplateController {
 
     @PostMapping
     public ResponseEntity<String> addTemplate(@RequestBody TemplateDTO templateDTO){
-        Template template = new Template();
-        BeanUtils.copyProperties(templateDTO, template);
-        Template templateCreated = templateService.addTemplate(template);
-        return new ResponseEntity<>(templateCreated.getTemplateId(),HttpStatus.OK);
+
+        try{
+            Template template = new Template();
+            BeanUtils.copyProperties(templateDTO, template);
+            Template templateCreated = templateService.addTemplate(template);
+            return new ResponseEntity<>(templateCreated.getTemplateId(),HttpStatus.OK);
+        }catch (Exception e){
+
+        }
+
+        return new ResponseEntity<>("Can't Create Object",HttpStatus.OK);
+
     }
 
     @PutMapping("/{templateId}")
@@ -47,6 +55,14 @@ public class TemplateController {
     public ResponseEntity<Boolean> deleteTemplate(@PathVariable("templateId") String templateId){
         templateService.deleteTemplate(templateId);
         return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/teamplatename/{templateName}", method = RequestMethod.GET)
+    public ResponseEntity<TemplateDTO> getByTemplateName(@PathVariable("templateName") int templateName){
+        Template template = templateService.findByTemplateName(templateName);
+        TemplateDTO templateDTO = new TemplateDTO();
+        BeanUtils.copyProperties(template, templateDTO);
+        return  new ResponseEntity<>(templateDTO,HttpStatus.OK);
     }
 
 

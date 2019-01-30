@@ -9,7 +9,8 @@ public enum NotificationType {
     QUESTIONS_ADDED(5),
     RESULT(6),
     SHARE(7),
-    SUBSCRIPTION_NOTICE(8);
+    SUBSCRIPTION_NOTICE(8),
+    WELCOME(9);
 
     final int value;
 

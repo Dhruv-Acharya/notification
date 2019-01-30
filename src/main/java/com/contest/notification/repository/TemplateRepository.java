@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TemplateRepository extends MongoRepository<Template,String> {
+
+    Template findByTemplateName(int templateName);
 }

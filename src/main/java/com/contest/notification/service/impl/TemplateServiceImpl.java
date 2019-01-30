@@ -13,8 +13,10 @@ public class TemplateServiceImpl implements TemplateService {
     TemplateRepository templateRepository;
 
     @Override
-    public Template addTemplate(Template template) {
-            return templateRepository.save(template);
+    public Template addTemplate(Template template) throws Exception {
+        if(template == null)
+            throw new Exception();
+        return templateRepository.save(template);
     }
 
     @Override
@@ -30,5 +32,10 @@ public class TemplateServiceImpl implements TemplateService {
     @Override
     public Template findOneTemplate(String templateId) {
         return templateRepository.findOne(templateId);
+    }
+
+    @Override
+    public Template findByTemplateName(int templateName) {
+        return templateRepository.findByTemplateName(templateName);
     }
 }
