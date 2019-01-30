@@ -1,24 +1,30 @@
 package com.contest.notification.consumer;
 
-import com.contest.notification.dto.Follow;
 import com.contest.notification.dto.Header;
+import com.contest.notification.dto.SubscriptionNotice;
+import com.contest.notification.dto.Welcome;
 import com.contest.notification.entity.Template;
+import com.contest.notification.entity.User;
 import com.contest.notification.service.TemplateService;
+import com.contest.notification.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FollowConsumer implements Consumer {
+public class WelcomeConsumer implements Consumer {
 
     @Autowired
     TemplateService templateService;
-    @KafkaListener(topics="${follow.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
+
+    @Autowired
+    UserService userService;
+
+    @Override
     public void receiveMessage(Header header) {
-        LOGGER.info("Received:"+ header);
+
     }
 
     @Override
@@ -29,8 +35,8 @@ public class FollowConsumer implements Consumer {
         int endIndex = 0;
 
         List<String> replacementArray = new ArrayList<>();
-        Follow follow = (Follow)header.getNotificationTypeBody();
-        replacementArray.add(follow.getSender());
+        User user = userService.findOne(header.getReceiver());
+        replacementArray.add(user.getUserName());
 
         int i=0;
         //System.out.println("Template : " + str);
@@ -53,6 +59,5 @@ public class FollowConsumer implements Consumer {
         return str;
     }
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FollowConsumer.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShareConsumer.class);
 }
