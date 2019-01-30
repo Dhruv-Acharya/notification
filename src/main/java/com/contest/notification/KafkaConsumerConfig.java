@@ -6,6 +6,7 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@EnableKafka
 public class KafkaConsumerConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String server;
@@ -22,8 +24,28 @@ public class KafkaConsumerConfig {
     @Value("${spring.kafka.consumer.group-id}")
     private String groupId;
 
+
     @Bean
-    public ConsumerFactory<String, Header> orderRatingConsumerFactory() {
+    public ConsumerFactory<Object, Object> ConsumerFactory() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,server );
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+
+        return new DefaultKafkaConsumerFactory<>(config);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<Object, Object> KafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory();
+        factory.setConsumerFactory(ConsumerFactory());
+        return factory;
+    }
+
+
+    @Bean
+    public ConsumerFactory<String, Header> HeaderConsumerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,server );
         config.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
@@ -35,9 +57,9 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, Header> headerConcurrentKafkaListenerContainerFactory() {
+    public ConcurrentKafkaListenerContainerFactory<String, Header> HeaderKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, Header> factory = new ConcurrentKafkaListenerContainerFactory();
-        factory.setConsumerFactory(orderRatingConsumerFactory());
+        factory.setConsumerFactory(HeaderConsumerFactory());
         return factory;
     }
 }

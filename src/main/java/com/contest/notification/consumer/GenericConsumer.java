@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 
 public class GenericConsumer implements Consumer {
-    @KafkaListener(topics="${generic.kafka.topic}",containerFactory = "headerConcurrentKafkaListenerContainerFactory")
+    @KafkaListener(topics="${generic.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
     public void receiveMessage(Header header) {
         LOGGER.info("Received:"+ header);
     }
