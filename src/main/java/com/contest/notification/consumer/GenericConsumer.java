@@ -27,8 +27,11 @@ public class GenericConsumer implements Consumer {
     @Override
     public String processMessage(Header header) {
 
+
         Generic generic = (Generic)header.getNotificationTypeBody();
-        return generic.getMessage();
+        String str = generic.getMessage();
+        LOGGER.info("Final String : {}" , str);
+        return str;
     }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GenericConsumer.class);

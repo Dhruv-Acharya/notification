@@ -30,6 +30,7 @@ public class QuestionsConsumer implements Consumer{
 
         Template template = templateService.findByTemplateName(header.getNotificationType().getValue());
         String str = template.getTemplate();
+        LOGGER.info("Final String : {}" , str);
         return str;
     }
 

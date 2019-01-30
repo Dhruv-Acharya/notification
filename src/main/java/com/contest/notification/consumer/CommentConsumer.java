@@ -47,7 +47,7 @@ public class CommentConsumer implements Consumer{
         replacementArray.add(comment.getPostComment().toString());
 
         int i=0;
-        //System.out.println("Template : " + str);
+        LOGGER.info("Template : {}" , str);
         while(true) {
 
             int startIndex = str.indexOf("<",endIndex);
@@ -63,6 +63,7 @@ public class CommentConsumer implements Consumer{
             }
 
         }
+        LOGGER.info("Final String : {}" , str);
 
         return str;
     }

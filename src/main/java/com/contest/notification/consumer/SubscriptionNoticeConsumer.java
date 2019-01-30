@@ -46,7 +46,7 @@ public class SubscriptionNoticeConsumer implements Consumer{
         replacementArray.add(subscriptionNotice.getContestName());
 
         int i=0;
-        //System.out.println("Template : " + str);
+        LOGGER.info("Template : {}" , str);
         while(true) {
 
             int startIndex = str.indexOf("<",endIndex);
@@ -62,7 +62,7 @@ public class SubscriptionNoticeConsumer implements Consumer{
             }
 
         }
-
+        LOGGER.info("Final String : {}" , str);
         return str;
     }
 

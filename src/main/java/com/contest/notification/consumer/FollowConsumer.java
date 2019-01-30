@@ -33,7 +33,7 @@ public class FollowConsumer implements Consumer {
         replacementArray.add(follow.getSender());
 
         int i=0;
-        //System.out.println("Template : " + str);
+        LOGGER.info("Template : {}" , str);
         while(true) {
 
             int startIndex = str.indexOf("<",endIndex);
@@ -49,7 +49,7 @@ public class FollowConsumer implements Consumer {
             }
 
         }
-
+        LOGGER.info("Final String : {}" , str);
         return str;
     }
 
