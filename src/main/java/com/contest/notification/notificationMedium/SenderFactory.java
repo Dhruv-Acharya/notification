@@ -1,6 +1,9 @@
 package com.contest.notification.notificationMedium;
 
 import com.contest.notification.notificationEnum.NotificationMedium;
+import com.contest.notification.notificationMedium.Mail.MailSender;
+import com.contest.notification.notificationMedium.Web.WebNotificationSender;
+import com.contest.notification.notificationMedium.android.AndroidNotificationSender;
 
 public class SenderFactory {
     Sender sender;

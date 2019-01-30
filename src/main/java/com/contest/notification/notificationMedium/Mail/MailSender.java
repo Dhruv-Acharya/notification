@@ -1,6 +1,7 @@
-package com.contest.notification.notificationMedium;
+package com.contest.notification.notificationMedium.Mail;
 
 import com.contest.notification.dto.Header;
+import com.contest.notification.notificationMedium.Sender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
