@@ -38,7 +38,7 @@ public class ContestConsumer implements Consumer{
         replacementArray.add(contest.getContestName());
 
         int i=0;
-        //System.out.println("Template : " + str);
+        LOGGER.info("Template : {}" , str);
         while(true) {
 
             int startIndex = str.indexOf("<",endIndex);
@@ -54,7 +54,7 @@ public class ContestConsumer implements Consumer{
             }
 
         }
-
+        LOGGER.info("Final String : {}" , str);
         return str;
     }
 
