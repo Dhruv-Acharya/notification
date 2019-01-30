@@ -1,6 +1,8 @@
 package com.contest.notification.service.impl;
 
 import com.contest.notification.entity.User;
+import com.contest.notification.exception.DeviceIdNotFoundException;
+import com.contest.notification.exception.UserNotFoundException;
 import com.contest.notification.repository.UserRepository;
 import com.contest.notification.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findOne(String userId) {
-        return userRepository.findByUserId(userId);
+    public User findOne(String userId) throws UserNotFoundException{
+        User user = userRepository.findByUserId(userId);
+        if (user != null) {
+            return user;
+        }
+        else {
+            throw new UserNotFoundException();
+        }
     }
 
     @Override
@@ -28,15 +36,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User setAndroidDeviceId(User user, String androidDeviceId) {
-        user.setAndroidDeviceId(androidDeviceId);
-        return userRepository.save(user);
+    public User setAndroidDeviceId(User user, String androidDeviceId) throws DeviceIdNotFoundException{
+        if (androidDeviceId != null) {
+            user.setAndroidDeviceId(androidDeviceId);
+            return userRepository.save(user);
+        }
+        else {
+            throw new DeviceIdNotFoundException();
+        }
     }
 
     @Override
-    public User setBrowserDeviceId(User user, String browserDeviceId) {
-        user.setBrowserDeviceId(browserDeviceId);
-        return userRepository.save(user);
+    public User setBrowserDeviceId(User user, String browserDeviceId) throws DeviceIdNotFoundException{
+        if (browserDeviceId != null) {
+            user.setBrowserDeviceId(browserDeviceId);
+            return userRepository.save(user);
+        }
+        else {
+            throw new DeviceIdNotFoundException();
+        }
     }
 
     @Override
