@@ -2,7 +2,6 @@ package com.contest.notification.controller;
 
 import com.contest.notification.dto.TemplateDTO;
 import com.contest.notification.entity.Template;
-import com.contest.notification.exception.TemplateNotFoundException;
 import com.contest.notification.service.TemplateService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,32 +19,26 @@ public class TemplateController {
     TemplateService templateService;
 
     @PostMapping
-    public ResponseEntity<String> addTemplate(@RequestBody TemplateDTO templateDTO) throws TemplateNotFoundException{
+    public ResponseEntity<String> addTemplate(@RequestBody TemplateDTO templateDTO){
 
         Template template = new Template();
         BeanUtils.copyProperties(templateDTO, template);
-        if (template.getTemplate() == null) {
-            throw new TemplateNotFoundException();
-        }
         Template templateCreated = templateService.addTemplate(template);
         return new ResponseEntity<>(templateCreated.getTemplateId(),HttpStatus.OK);
 
     }
 
     @PutMapping("/{templateId}")
-    public ResponseEntity<String> updateTemplate(@PathVariable("templateId") String templateId,@RequestBody TemplateDTO templateDTO) throws TemplateNotFoundException{
+    public ResponseEntity<String> updateTemplate(@PathVariable("templateId") String templateId,@RequestBody TemplateDTO templateDTO){
         Template template = new Template();
         BeanUtils.copyProperties(templateDTO, template);
         template.setTemplateId(templateId);
-        if (template.getTemplate() == null) {
-            throw new TemplateNotFoundException();
-        }
         Template templateCreated = templateService.updateTemplate(template);
         return new ResponseEntity<>(templateCreated.getTemplateId(),HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{templateId}",method = RequestMethod.GET)
-    public ResponseEntity<TemplateDTO>  getOnetemplate(@PathVariable("templateId") String templateId) throws TemplateNotFoundException{
+    public ResponseEntity<TemplateDTO>  getOnetemplate(@PathVariable("templateId") String templateId){
         Template template = templateService.findOneTemplate(templateId);
         TemplateDTO templateDTO = new TemplateDTO();
         BeanUtils.copyProperties(template, templateDTO);
@@ -59,7 +52,7 @@ public class TemplateController {
     }
 
     @RequestMapping(value = "/teamplatename/{templateName}", method = RequestMethod.GET)
-    public ResponseEntity<TemplateDTO> getByTemplateName(@PathVariable("templateName") int templateName) throws TemplateNotFoundException{
+    public ResponseEntity<TemplateDTO> getByTemplateName(@PathVariable("templateName") int templateName){
         Template template = templateService.findByTemplateName(templateName);
         TemplateDTO templateDTO = new TemplateDTO();
         BeanUtils.copyProperties(template, templateDTO);
