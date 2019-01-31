@@ -7,6 +7,7 @@ import com.contest.notification.entity.Template;
 import com.contest.notification.entity.User;
 import com.contest.notification.exception.FieldsCanNotBeEmpty;
 import com.contest.notification.notificationEnum.NotificationMedium;
+import com.contest.notification.notificationMedium.Mail.MailSender;
 import com.contest.notification.notificationMedium.Sender;
 import com.contest.notification.notificationMedium.SenderFactory;
 import com.contest.notification.notificationMedium.Web.WebTopicNotificationSender;
@@ -45,9 +46,12 @@ public class ContestConsumer implements Consumer{
     @Autowired
     NotificationService notificationService;
 
+    @Autowired
+    MailSender mailSender;
+
 
     @KafkaListener(topics="${contest.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
-    public void receiveMessage(Header header) throws FieldsCanNotBeEmpty {
+    public void receiveMessage(Header header) throws Exception {
         LOGGER.info("Received:"+ header);
         User user= null;
 
@@ -72,7 +76,9 @@ public class ContestConsumer implements Consumer{
             }
             else if (medium == NotificationMedium.EMAIL){
                 for (User existingUser :userService.findAll()) {
-                    Sender sender = new SenderFactory().getInstance(medium);
+                    Sender sender = mailSender;
+                    LOGGER.info("existingUser"+existingUser.toString());
+                    LOGGER.info("header"+header.toString());
                     sender.send(header,processMessage(header),"Contest Added",existingUser);
                 }
             }

@@ -37,7 +37,7 @@ public class QuestionsConsumer implements Consumer{
     NotificationService notificationService;
 
     @KafkaListener(topics="${questionAdded.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
-    public void receiveMessage(Header header) throws FieldsCanNotBeEmpty {
+    public void receiveMessage(Header header) throws Exception {
         LOGGER.info("Received:"+ header);
 
         if(header == null)

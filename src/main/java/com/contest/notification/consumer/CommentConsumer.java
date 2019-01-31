@@ -41,7 +41,7 @@ public class CommentConsumer implements Consumer{
 
 
     @KafkaListener(topics="${comment.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
-    public void receiveMessage(Header header) throws FieldsCanNotBeEmpty {
+    public void receiveMessage(Header header) throws Exception {
         LOGGER.info("Received:"+ header);
 
         if(header == null)
@@ -68,7 +68,7 @@ public class CommentConsumer implements Consumer{
         notificationService.addNotification(notificationData);
     }
     @Override
-    public String processMessage(Header header) {
+    public String processMessage(Header header) throws Exception {
 
         Template template = templateService.findByTemplateName(header.getNotificationType().getValue());
 

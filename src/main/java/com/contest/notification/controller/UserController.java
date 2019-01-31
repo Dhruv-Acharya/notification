@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
@@ -25,7 +27,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<User> getUser(@PathVariable(value = "userId") String userId){
+    public ResponseEntity<User> getUser(@PathVariable(value = "userId") String userId) throws Exception {
         return new ResponseEntity<User>(userService.findOne(userId), HttpStatus.OK);
     }
 
@@ -39,7 +41,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/setAndroidDeviceId/{userId}/{androidDeviceId}", method = RequestMethod.PUT)
-    public ResponseEntity<UserDTO> setAndroidDeviceId(@PathVariable(value = "userId") String userId, @PathVariable(value = "androidDeviceId") String androidDeviceId){
+    public ResponseEntity<UserDTO> setAndroidDeviceId(@PathVariable(value = "userId") String userId, @PathVariable(value = "androidDeviceId") String androidDeviceId) throws Exception {
         User user = userService.findOne(userId);
         UserDTO response = new UserDTO();
         if (user == null) {
@@ -60,7 +62,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/setBrowserDeviceId/{userId}/{browserDeviceId}", method = RequestMethod.PUT)
-    public ResponseEntity<UserDTO> setBrowserDeviceId(@PathVariable(value = "userId") String userId, @PathVariable(value = "browserDeviceId") String browserDeviceId) {
+    public ResponseEntity<UserDTO> setBrowserDeviceId(@PathVariable(value = "userId") String userId, @PathVariable(value = "browserDeviceId") String browserDeviceId) throws Exception {
         User user = userService.findOne(userId);
         UserDTO response = new UserDTO();
         if (user == null) {
@@ -81,7 +83,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/setFacebookPreference/{userId}/{facebookPreference}", method = RequestMethod.POST)
-    public ResponseEntity<UserDTO> setFacebookPreference(@PathVariable(value = "userId") String userId, @PathVariable(value = "facebookPreference") int facebookPreference) {
+    public ResponseEntity<UserDTO> setFacebookPreference(@PathVariable(value = "userId") String userId, @PathVariable(value = "facebookPreference") int facebookPreference) throws Exception {
         User user = userService.findOne(userId);
         UserDTO response = new UserDTO();
         if (user == null) {
@@ -102,7 +104,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/setContestPreference/{userId}/{contestPreference}", method = RequestMethod.POST)
-    public ResponseEntity<UserDTO> setContestPreference(@PathVariable(value = "userId") String userId, @PathVariable(value = "contestPreference") int contestPreference){
+    public ResponseEntity<UserDTO> setContestPreference(@PathVariable(value = "userId") String userId, @PathVariable(value = "contestPreference") int contestPreference) throws Exception {
         User user = userService.findOne(userId);
         UserDTO response = new UserDTO();
         if (user == null) {
@@ -121,4 +123,10 @@ public class UserController {
         response.setMessage("Contest preference updated");
         return new ResponseEntity<UserDTO>(response,HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/",method = RequestMethod.GET)
+    public ResponseEntity<List<User>> findAllUsers() throws Exception {
+        return new ResponseEntity<>(userService.findAll(),HttpStatus.OK);
+    }
+
 }

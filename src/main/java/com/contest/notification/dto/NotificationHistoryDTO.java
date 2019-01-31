@@ -10,6 +10,7 @@ public class NotificationHistoryDTO {
     private String url;
     private NotificationType notificationType;
 
+
     public NotificationType getNotificationType() {
         return notificationType;
     }

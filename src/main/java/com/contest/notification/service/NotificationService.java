@@ -8,7 +8,7 @@ import java.util.List;
 public interface NotificationService {
 
     NotificationData addNotification (NotificationData notificationData);
-    List<NotificationHistoryDTO> findByUserId(String userId);
+    List<NotificationHistoryDTO> findByUserId(String userId) throws Exception;
     NotificationData findOne(String notificationId);
     Boolean markRead(NotificationData notificationData);
 }

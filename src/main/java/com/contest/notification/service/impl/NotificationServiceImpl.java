@@ -55,7 +55,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public List<NotificationHistoryDTO> findByUserId(String userId){
+    public List<NotificationHistoryDTO> findByUserId(String userId) throws Exception {
         List<NotificationData> notifications = notificationRepository.findByReceiver(userId);
 
         List<NotificationHistoryDTO> notificationHistoryDTOList = new ArrayList<>();
