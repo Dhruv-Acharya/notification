@@ -9,7 +9,15 @@ public class NotificationHistoryDTO {
     private boolean isRead;
     private String url;
     private NotificationType notificationType;
+    private String timeStamp;
 
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 
     public NotificationType getNotificationType() {
         return notificationType;
@@ -58,6 +66,8 @@ public class NotificationHistoryDTO {
         sb.append(", message='").append(message).append('\'');
         sb.append(", isRead=").append(isRead);
         sb.append(", url='").append(url).append('\'');
+        sb.append(", notificationType=").append(notificationType);
+        sb.append(", timeStamp='").append(timeStamp).append('\'');
         sb.append('}');
         return sb.toString();
     }
