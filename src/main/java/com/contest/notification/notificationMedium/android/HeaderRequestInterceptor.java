@@ -5,9 +5,9 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.support.HttpRequestWrapper;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-
 public class HeaderRequestInterceptor implements ClientHttpRequestInterceptor {
 
     private final String headerName;

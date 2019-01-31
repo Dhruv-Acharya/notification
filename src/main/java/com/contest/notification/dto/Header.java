@@ -10,7 +10,7 @@ public class Header {
     private String receiver;
     private String timeStamp;
     private List<NotificationMedium> notificationMedium;
-    private NotificationTypeBody notificationTypeBody;
+    private NotificationBodyAbstractClass notificationTypeBody;
 
     public NotificationType getNotificationType() {
         return notificationType;
@@ -44,11 +44,11 @@ public class Header {
         this.timeStamp = timeStamp;
     }
 
-    public NotificationTypeBody getNotificationTypeBody() {
+    public NotificationBodyAbstractClass getNotificationTypeBody() {
         return notificationTypeBody;
     }
 
-    public void setNotificationTypeBody(NotificationTypeBody notificationTypeBody) {
+    public void setNotificationTypeBody(NotificationBodyAbstractClass notificationTypeBody) {
         this.notificationTypeBody = notificationTypeBody;
     }
 

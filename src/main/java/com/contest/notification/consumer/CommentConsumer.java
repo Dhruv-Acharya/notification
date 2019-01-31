@@ -6,6 +6,7 @@ import com.contest.notification.dto.Header;
 import com.contest.notification.entity.Template;
 import com.contest.notification.entity.User;
 import com.contest.notification.notificationEnum.NotificationMedium;
+import com.contest.notification.notificationMedium.Mail.MailSender;
 import com.contest.notification.notificationMedium.Sender;
 import com.contest.notification.notificationMedium.SenderFactory;
 import com.contest.notification.service.TemplateService;
@@ -28,12 +29,20 @@ public class CommentConsumer implements Consumer{
     @Autowired
     UserService userService;
 
+    @Autowired
+    SenderFactory senderFactory;
+
+//    @Autowired
+//    MailSender mailSender;
+
+
     @KafkaListener(topics="${comment.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
     public void receiveMessage(Header header) {
         LOGGER.info("Received:"+ header);
         User user= userService.findOne(header.getReceiver());
         for (NotificationMedium medium: header.getNotificationMedium()) {
-            Sender sender = new SenderFactory().getInstance(medium);
+            Sender sender = senderFactory.getInstance(medium);
+            //MailSender mailSender = new MailSender();
             sender.send(header,processMessage(header),"Comment Received",user);
         }
     }

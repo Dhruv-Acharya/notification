@@ -4,25 +4,40 @@ import com.contest.notification.notificationEnum.NotificationMedium;
 import com.contest.notification.notificationMedium.Mail.MailSender;
 import com.contest.notification.notificationMedium.Web.WebNotificationSender;
 import com.contest.notification.notificationMedium.android.AndroidNotificationSender;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Component
 public class SenderFactory {
-    Sender sender;
+
+
+    @Autowired
+    @Qualifier("AndroidNotificationSender")
+    Sender androidSender;
+
+    @Autowired
+    @Qualifier("MailSender")
+    Sender mailSender;
+
+    @Autowired
+    @Qualifier("WebNotificationSender")
+    Sender webSender;
+
+
     public Sender getInstance(NotificationMedium notificationMedium){
         switch (notificationMedium){
             case WEB:
-                sender = new WebNotificationSender();
-                break;
+                return webSender;
             case EMAIL:
-                sender = new MailSender();
-                break;
+                return mailSender;
             case ANDROID:
-                sender = new AndroidNotificationSender();
-                break;
+                return androidSender;
                 default:
-                    sender=null;
+                    return null;
         }
-        return sender;
+
     }
 }
