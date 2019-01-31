@@ -2,6 +2,8 @@ package com.contest.notification.consumer;
 
 
 import com.contest.notification.dto.Header;
+import com.contest.notification.dto.Result;
+import com.contest.notification.entity.NotificationData;
 import com.contest.notification.entity.User;
 import com.contest.notification.exception.FieldsCanNotBeEmpty;
 import com.contest.notification.notificationEnum.NotificationMedium;
@@ -29,7 +31,7 @@ public class ResultConsumer implements Consumer{
 
 
     @KafkaListener(topics="${result.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
-    public void receiveMessage(Header header) {
+    public void receiveMessage(Header header) throws FieldsCanNotBeEmpty {
         LOGGER.info("Received:"+ header);
 
         if(header == null)
