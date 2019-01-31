@@ -1,5 +1,6 @@
 package com.contest.notification.entity;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,6 +18,7 @@ public class User {
     @NotNull
     private String userName;
     @NotNull
+    @Email
     private String emailId;
     private String androidDeviceId;
     private String browserDeviceId;
