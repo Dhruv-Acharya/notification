@@ -38,6 +38,8 @@ public class NotificationController {
             notificationDTO.setMessage("No notifications found.");
             return new ResponseEntity<>(notificationDTO,HttpStatus.OK);
         }
+        notificationDTO.setStatus(true);
+        notificationDTO.setMessage("success");
         notificationDTO.setNotificationHistoryDTOList(notificationHistoryDTOList);
         return new ResponseEntity<>(notificationDTO,HttpStatus.OK);
     }

@@ -65,6 +65,7 @@ public class NotificationServiceImpl implements NotificationService {
             notificationHistoryDTO.setNotificationId(singleNotification.getNotificationId());
             notificationHistoryDTO.setRead(singleNotification.isRead());
             notificationHistoryDTO.setNotificationType(singleNotification.getNotificationType());
+            notificationHistoryDTO.setTimeStamp(singleNotification.getTimeStamp());
 
             Header header = new Header();
             BeanUtils.copyProperties(singleNotification,header);
