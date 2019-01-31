@@ -23,22 +23,6 @@ public class NotificationController {
     public ResponseEntity<String> addNotification(@RequestBody NotificationDataDTO notificationDataDTO) {
         NotificationData notificationData = new NotificationData();
         BeanUtils.copyProperties(notificationDataDTO, notificationData);
-        if (notificationData.getNotificationType() == null) {
-            throw new NotificationTypeNotFoundException();
-        }
-        if (notificationData.getNotificationMedium() == null) {
-            throw new NotificationMediumNotFoundException();
-        }
-        if (notificationData.getNotificationType() == null) {
-            throw new NotificationTypeBodyNotFoundException();
-        }
-        if (notificationData.getReceiver() == null) {
-            throw new ReceiverNotFoundException();
-        }
-        if (notificationData.getTimeStamp() == null) {
-            throw new TimestampNotFoundException();
-        }
-
         NotificationData notificationDataCreated = notificationService.addNotification(notificationData);
         return new ResponseEntity<>(notificationDataCreated.getNotificationId(),HttpStatus.OK);
     }
@@ -48,4 +32,14 @@ public class NotificationController {
          return new ResponseEntity<>(notificationService.findByUserId(userId),HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/markRead/{notificationId}", method = RequestMethod.PUT)
+    public ResponseEntity<Boolean> markRead(@PathVariable(value = "notificationId") String notificationId) {
+        NotificationData notificationData = notificationService.findOne(notificationId);
+        if (notificationService.markRead(notificationData)) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        }
+    }
 }

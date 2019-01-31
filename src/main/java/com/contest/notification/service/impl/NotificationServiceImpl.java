@@ -24,4 +24,21 @@ public class NotificationServiceImpl implements NotificationService {
         List<NotificationData> notifications = notificationRepository.findByReceiver(userId);
         return notifications;
     }
+
+    @Override
+    public NotificationData findOne(String notificationId) {
+        return notificationRepository.findOne(notificationId);
+    }
+
+    @Override
+    public Boolean markRead(NotificationData notificationData) {
+        notificationData.setRead(true);
+        NotificationData updatedNotificationData = notificationRepository.save(notificationData);
+        if (updatedNotificationData == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 }
