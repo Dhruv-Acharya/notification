@@ -23,6 +23,7 @@ public class ContestConsumer implements Consumer{
     @KafkaListener(topics="${contest.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
     public void receiveMessage(Header header) {
         LOGGER.info("Received:"+ header);
+
     }
 
     @Override

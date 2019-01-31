@@ -3,12 +3,14 @@ package com.contest.notification.consumer;
 
 import com.contest.notification.dto.Comment;
 import com.contest.notification.dto.Header;
+import com.contest.notification.entity.NotificationData;
 import com.contest.notification.entity.Template;
 import com.contest.notification.entity.User;
 import com.contest.notification.notificationEnum.NotificationMedium;
 import com.contest.notification.notificationMedium.Mail.MailSender;
 import com.contest.notification.notificationMedium.Sender;
 import com.contest.notification.notificationMedium.SenderFactory;
+import com.contest.notification.service.NotificationService;
 import com.contest.notification.service.TemplateService;
 import com.contest.notification.service.UserService;
 import org.slf4j.Logger;
@@ -32,8 +34,8 @@ public class CommentConsumer implements Consumer{
     @Autowired
     SenderFactory senderFactory;
 
-//    @Autowired
-//    MailSender mailSender;
+    @Autowired
+    NotificationService notificationService;
 
 
     @KafkaListener(topics="${comment.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
@@ -42,9 +44,11 @@ public class CommentConsumer implements Consumer{
         User user= userService.findOne(header.getReceiver());
         for (NotificationMedium medium: header.getNotificationMedium()) {
             Sender sender = senderFactory.getInstance(medium);
-            //MailSender mailSender = new MailSender();
             sender.send(header,processMessage(header),"Comment Received",user);
         }
+
+
+
     }
     @Override
     public String processMessage(Header header) {

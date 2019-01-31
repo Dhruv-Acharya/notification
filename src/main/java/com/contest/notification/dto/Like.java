@@ -2,9 +2,14 @@ package com.contest.notification.dto;
 
 import com.contest.notification.notificationEnum.PostComment;
 
+import javax.validation.constraints.NotNull;
+
 public class Like extends NotificationBodyAbstractClass {
+    @NotNull
     private String postId;
+    @NotNull
     private String sender;
+    @NotNull
     private PostComment postComment;
 
     public PostComment getPostComment() {

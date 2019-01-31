@@ -1,8 +1,13 @@
 package com.contest.notification.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class Share extends NotificationBodyAbstractClass {
+    @NotNull
     private String ownerId;
+    @NotNull
     private String postId;
+    @NotNull
     private String sharerId;
 
     public String getOwnerId() {

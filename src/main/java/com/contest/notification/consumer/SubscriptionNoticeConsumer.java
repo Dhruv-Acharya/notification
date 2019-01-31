@@ -6,6 +6,9 @@ import com.contest.notification.dto.Share;
 import com.contest.notification.dto.SubscriptionNotice;
 import com.contest.notification.entity.Template;
 import com.contest.notification.entity.User;
+import com.contest.notification.notificationEnum.NotificationMedium;
+import com.contest.notification.notificationMedium.Sender;
+import com.contest.notification.notificationMedium.SenderFactory;
 import com.contest.notification.service.TemplateService;
 import com.contest.notification.service.UserService;
 import org.slf4j.Logger;
@@ -26,9 +29,20 @@ public class SubscriptionNoticeConsumer implements Consumer{
     @Autowired
     UserService userService;
 
+    @Autowired
+    SenderFactory senderFactory;
+
     @KafkaListener(topics="${subscriptionNotice.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
     public void receiveMessage(Header header) {
         LOGGER.info("Received:"+ header);
+        SubscriptionNotice subscriptionNotice = (SubscriptionNotice)header.getNotificationTypeBody();
+        for (String userId: subscriptionNotice.getFollowerIds()) {
+            User user= userService.findOne(userId);
+            for (NotificationMedium medium: header.getNotificationMedium()) {
+                Sender sender = senderFactory.getInstance(medium);
+                sender.send(header,processMessage(header),"Contest Subscription",user);
+            }
+        }
     }
 
     @Override
@@ -53,12 +67,9 @@ public class SubscriptionNoticeConsumer implements Consumer{
             if(startIndex == -1)
                 break;
             endIndex = str.indexOf(">",endIndex);
-
             String replaceString = str.substring(startIndex, ++endIndex);
-            //System.out.println(replaceString);
             if(replacementArray.size() > i) {
                 str = str.replace(replaceString, replacementArray.get(i++));
-                // System.out.println("Result : " + str);
             }
 
         }
