@@ -31,7 +31,7 @@ public class NotificationController {
         if (notificationData.getNotificationMedium() == null) {
             throw new NotificationMediumNotFoundException();
         }
-        if (notificationData.getNotificationTypeBody() == null) {
+        if (notificationData.getNotificationType() == null) {
             throw new NotificationTypeBodyNotFoundException();
         }
         if (notificationData.getReceiver() == null) {

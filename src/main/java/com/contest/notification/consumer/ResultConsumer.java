@@ -51,6 +51,7 @@ public class ResultConsumer implements Consumer{
 
         NotificationData notificationData = new NotificationData();
         BeanUtils.copyProperties(header,notificationData);
+        notificationData.setNotificationTypeBody(header.getNotificationTypeBody());
         notificationService.addNotification(notificationData);
     }
 
