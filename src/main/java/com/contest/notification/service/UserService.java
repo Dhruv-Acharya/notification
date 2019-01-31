@@ -8,6 +8,7 @@ public interface UserService {
     User addUser(User user);
     User findOne(String userId);
     User updateUser(User user);
+    List<User> findAll();
     User setAndroidDeviceId(User user, String androidDeviceId);
     User setBrowserDeviceId(User user, String browserDeviceId);
     User setFacebookPreference(User user, int preference);

@@ -54,4 +54,9 @@ public class UserServiceImpl implements UserService {
         user.setContestPreference(preference);
         return userRepository.save(user);
     }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
 }
