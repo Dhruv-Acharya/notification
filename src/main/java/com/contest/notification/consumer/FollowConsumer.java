@@ -17,10 +17,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class FollowConsumer implements Consumer {
     @Autowired
     UserService userService;
@@ -57,8 +59,9 @@ public class FollowConsumer implements Consumer {
             sender.send(header,processMessage(header),"Follower",user);
         }
 
-        NotificationData notificationData = null;
+        NotificationData notificationData = new NotificationData();
         BeanUtils.copyProperties(header,notificationData);
+        notificationData.setNotificationTypeBody(header.getNotificationTypeBody());
         notificationService.addNotification(notificationData);
     }
 
@@ -71,7 +74,10 @@ public class FollowConsumer implements Consumer {
 
         List<String> replacementArray = new ArrayList<>();
         Follow follow = (Follow)header.getNotificationTypeBody();
-        replacementArray.add(follow.getSender());
+
+        replacementArray.add(userService.findOne(follow.getSender()).getUserName());
+
+
 
         int i=0;
         LOGGER.info("Template : {}" , str);

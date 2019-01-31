@@ -23,6 +23,22 @@ public class NotificationController {
     public ResponseEntity<String> addNotification(@RequestBody NotificationDataDTO notificationDataDTO) {
         NotificationData notificationData = new NotificationData();
         BeanUtils.copyProperties(notificationDataDTO, notificationData);
+        if (notificationData.getNotificationType() == null) {
+            throw new NotificationTypeNotFoundException();
+        }
+        if (notificationData.getNotificationMedium() == null) {
+            throw new NotificationMediumNotFoundException();
+        }
+        if (notificationData.getNotificationType() == null) {
+            throw new NotificationTypeBodyNotFoundException();
+        }
+        if (notificationData.getReceiver() == null) {
+            throw new ReceiverNotFoundException();
+        }
+        if (notificationData.getTimeStamp() == null) {
+            throw new TimestampNotFoundException();
+        }
+
         NotificationData notificationDataCreated = notificationService.addNotification(notificationData);
         return new ResponseEntity<>(notificationDataCreated.getNotificationId(),HttpStatus.OK);
     }

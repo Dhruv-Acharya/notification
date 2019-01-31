@@ -49,8 +49,9 @@ public class ResultConsumer implements Consumer{
             sender.send(header,processMessage(header),"LeaderBoard Updated",user);
         }
 
-        NotificationData notificationData = null;
+        NotificationData notificationData = new NotificationData();
         BeanUtils.copyProperties(header,notificationData);
+        notificationData.setNotificationTypeBody(header.getNotificationTypeBody());
         notificationService.addNotification(notificationData);
     }
 
