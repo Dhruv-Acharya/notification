@@ -1,6 +1,7 @@
 package com.contest.notification.controller;
 
 
+import com.contest.notification.dto.NotificationDTO;
 import com.contest.notification.dto.NotificationDataDTO;
 import com.contest.notification.dto.NotificationHistoryDTO;
 import com.contest.notification.entity.NotificationData;
@@ -29,8 +30,16 @@ public class NotificationController {
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<List<NotificationHistoryDTO>> findByUserId(@PathVariable(value = "userId") String userId) {
-         return new ResponseEntity<>(notificationService.findByUserId(userId),HttpStatus.OK);
+    public ResponseEntity<NotificationDTO> findByUserId(@PathVariable(value = "userId") String userId) throws Exception {
+        NotificationDTO notificationDTO = new NotificationDTO();
+        List<NotificationHistoryDTO> notificationHistoryDTOList= notificationService.findByUserId(userId);
+        if (notificationHistoryDTOList.size()==0){
+            notificationDTO.setStatus(false);
+            notificationDTO.setMessage("No notifications found.");
+            return new ResponseEntity<>(notificationDTO,HttpStatus.OK);
+        }
+        notificationDTO.setNotificationHistoryDTOList(notificationHistoryDTOList);
+        return new ResponseEntity<>(notificationDTO,HttpStatus.OK);
     }
 
     @RequestMapping(value = "/markRead/{notificationId}", method = RequestMethod.PUT)

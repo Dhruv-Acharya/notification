@@ -20,8 +20,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findOne(String userId){
+    public User findOne(String userId) throws Exception {
         User user = userRepository.findByUserId(userId);
+        if (user==null){
+            throw new Exception("User Not Found");
+        }
         return user;
     }
 
@@ -56,7 +59,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<User> findAll() throws Exception {
+        List<User> userList= userRepository.findAll();
+        if (userList.size()==0){
+            throw new Exception("User Not Found");
+        }
+        return userList;
     }
 }

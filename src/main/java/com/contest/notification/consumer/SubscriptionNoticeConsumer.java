@@ -40,7 +40,7 @@ public class SubscriptionNoticeConsumer implements Consumer{
     NotificationService notificationService;
 
     @KafkaListener(topics="${subscriptionNotice.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
-    public void receiveMessage(Header header) throws FieldsCanNotBeEmpty {
+    public void receiveMessage(Header header) throws Exception {
         LOGGER.info("Received:"+ header);
 
         if(header == null)
@@ -72,7 +72,7 @@ public class SubscriptionNoticeConsumer implements Consumer{
     }
 
     @Override
-    public String processMessage(Header header) {
+    public String processMessage(Header header) throws Exception {
 
         Template template = templateService.findByTemplateName(header.getNotificationType().getValue());
 

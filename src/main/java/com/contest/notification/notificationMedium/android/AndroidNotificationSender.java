@@ -18,6 +18,9 @@ public class AndroidNotificationSender implements Sender {
 
     @Override
     public void send(Header header, String message, String title, User user) {
+        if (user.getAndroidDeviceId()==null){
+            return;
+        }
         LOGGER.info("Android header:{}",header.toString());
         LOGGER.info("title:{}",title);
         LOGGER.info("User:{}",user.toString());

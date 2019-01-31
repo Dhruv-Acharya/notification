@@ -32,7 +32,7 @@ public class ResultConsumer implements Consumer{
 
 
     @KafkaListener(topics="${result.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
-    public void receiveMessage(Header header) throws FieldsCanNotBeEmpty {
+    public void receiveMessage(Header header) throws Exception {
 
         LOGGER.info("Received:"+ header);
 
@@ -56,7 +56,7 @@ public class ResultConsumer implements Consumer{
     }
 
     @Override
-    public String processMessage(Header header) {
+    public String processMessage(Header header) throws Exception {
         Result result = (Result)header.getNotificationTypeBody();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Hi ");

@@ -28,7 +28,9 @@ public class MailSender implements  Sender {
         LOGGER.info("User:{}",user.toString());
         LOGGER.info("message:{}",message);
 
-
+        if (user.getEmailId()==null){
+            return;
+        }
         MimeMessage mimeMessage = sender.createMimeMessage();
         MimeMessageHelper helper = null;
         try {

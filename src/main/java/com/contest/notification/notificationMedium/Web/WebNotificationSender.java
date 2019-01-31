@@ -10,6 +10,8 @@ public class WebNotificationSender implements Sender {
 
     @Override
     public void send(Header header, String message, String subject, User user) {
-
+        if (user.getBrowserDeviceId()==null){
+            return;
+        }
     }
 }

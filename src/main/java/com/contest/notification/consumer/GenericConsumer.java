@@ -39,7 +39,7 @@ public class GenericConsumer implements Consumer {
     NotificationService notificationService;
 
     @KafkaListener(topics="${generic.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
-    public void receiveMessage(Header header) throws FieldsCanNotBeEmpty {
+    public void receiveMessage(Header header) throws Exception {
 
         LOGGER.info("Received:"+ header);
 
