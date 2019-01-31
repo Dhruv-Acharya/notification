@@ -1,6 +1,7 @@
 package com.contest.notification.entity;
 
 
+import com.contest.notification.dto.NotificationBodyAbstractClass;
 import com.contest.notification.dto.NotificationTypeBody;
 import com.contest.notification.notificationEnum.NotificationMedium;
 import com.contest.notification.notificationEnum.NotificationType;
@@ -25,7 +26,7 @@ public class NotificationData {
     @NotNull
     private List<NotificationMedium> notificationMedium;
     @NotNull
-    private NotificationTypeBody notificationTypeBody;
+    private NotificationBodyAbstractClass notificationTypeBody;
 
     private boolean isRead = false;
 
@@ -82,11 +83,25 @@ public class NotificationData {
         isRead = read;
     }
 
-    public NotificationTypeBody getNotificationTypeBody() {
+    public NotificationBodyAbstractClass getNotificationTypeBody() {
         return notificationTypeBody;
     }
 
-    public void setNotificationTypeBody(NotificationTypeBody notificationTypeBody) {
+    public void setNotificationTypeBody(NotificationBodyAbstractClass notificationTypeBody) {
         this.notificationTypeBody = notificationTypeBody;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("NotificationData{");
+        sb.append("notificationId='").append(notificationId).append('\'');
+        sb.append(", notificationType=").append(notificationType);
+        sb.append(", receiver='").append(receiver).append('\'');
+        sb.append(", timeStamp='").append(timeStamp).append('\'');
+        sb.append(", notificationMedium=").append(notificationMedium);
+        sb.append(", notificationTypeBody=").append(notificationTypeBody);
+        sb.append(", isRead=").append(isRead);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -10,6 +10,7 @@ import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service(value = "AndroidTopicNotificationSender")
@@ -19,11 +20,9 @@ public class AndroidTopicNotificationSender implements Sender {
     @Override
     public void send(Header header, String message, String title, User user) {
 
-
-        String tokenId = user.getAndroidDeviceId();
         Message message1 = Message.builder()
                 .setNotification(new Notification(title,message))
-                .setTopic("${firebase.topic.contest}")
+                .setTopic("contest")
                 .build();
         String response = null;
         try {
