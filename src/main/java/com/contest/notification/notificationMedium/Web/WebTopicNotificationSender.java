@@ -6,7 +6,7 @@ import com.contest.notification.notificationMedium.Sender;
 import com.google.firebase.messaging.*;
 import org.springframework.stereotype.Service;
 
-@Service(value = "WebNotificationSender")
+@Service(value = "WebTopicNotificationSender")
 public class WebTopicNotificationSender implements Sender {
 
     @Override

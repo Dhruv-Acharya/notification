@@ -62,8 +62,9 @@ public class CommentConsumer implements Consumer{
             Sender sender = senderFactory.getInstance(medium);
             sender.send(header,processMessage(header),"Comment Received",user);
         }
-        NotificationData notificationData = null;
+        NotificationData notificationData = new NotificationData();
         BeanUtils.copyProperties(header,notificationData);
+        notificationData.setNotificationTypeBody(header.getNotificationTypeBody());
         notificationService.addNotification(notificationData);
     }
     @Override

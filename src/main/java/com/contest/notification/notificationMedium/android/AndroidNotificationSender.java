@@ -37,6 +37,6 @@ public class AndroidNotificationSender implements Sender {
         System.out.println("Successfully sent message: " + response);
 
     }
-    private static final Logger LOGGER = LoggerFactory.getLogger(MailSender.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AndroidNotificationSender.class);
 
 }
