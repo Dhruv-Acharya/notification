@@ -12,21 +12,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-@Service(value = "AndroidNotificationSender")
-public class AndroidNotificationSender implements Sender {
+@Service(value = "AndroidTopicNotificationSender")
+public class AndroidTopicNotificationSender implements Sender {
 
 
     @Override
     public void send(Header header, String message, String title, User user) {
-        LOGGER.info("Android header:{}",header.toString());
-        LOGGER.info("title:{}",title);
-        LOGGER.info("User:{}",user.toString());
-        LOGGER.info("message:{}",message);
+
 
         String tokenId = user.getAndroidDeviceId();
         Message message1 = Message.builder()
                 .setNotification(new Notification(title,message))
-                .setToken(tokenId)
+                .setTopic("${firebase.topic.contest}")
                 .build();
         String response = null;
         try {
