@@ -2,10 +2,6 @@ package com.contest.notification.controller;
 
 import com.contest.notification.dto.UserDTO;
 import com.contest.notification.entity.User;
-import com.contest.notification.exception.DeviceIdNotFoundException;
-import com.contest.notification.exception.EmailNotFoundException;
-import com.contest.notification.exception.UserNotFoundException;
-import com.contest.notification.exception.UsernameFoundException;
 import com.contest.notification.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,76 +17,108 @@ public class UserController {
     UserService userService;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO) throws EmailNotFoundException, UsernameFoundException{
+    public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO) {
         User user = new User();
         BeanUtils.copyProperties(userDTO, user);
-        if (user.getEmailId() == null) {
-            throw new EmailNotFoundException();
-        }
-        if (user.getUserName() == null) {
-            throw new UsernameFoundException();
-        }
         User createdUser = userService.addUser(user);
         return new ResponseEntity<>(createdUser.getUserId(),HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<User> getUser(@PathVariable(value = "userId") String userId) throws UserNotFoundException {
+    public ResponseEntity<User> getUser(@PathVariable(value = "userId") String userId){
         return new ResponseEntity<User>(userService.findOne(userId), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
-    public ResponseEntity<String> updateUser(@PathVariable(value = "userId") String userId, @RequestBody UserDTO userDTO) throws EmailNotFoundException, UsernameFoundException{
+    public ResponseEntity<String> updateUser(@PathVariable(value = "userId") String userId, @RequestBody UserDTO userDTO) {
         User user = new User();
         BeanUtils.copyProperties(userDTO, user);
         user.setUserId(userId);
-        if (user.getEmailId() == null) {
-            throw new EmailNotFoundException();
-        }
-        if (user.getUserName() == null) {
-            throw new UsernameFoundException();
-        }
         User updatedUser = userService.updateUser(user);
         return new ResponseEntity<String>(updatedUser.getUserId(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/setAndroidDeviceId/{userId}/{androidDeviceId}", method = RequestMethod.PUT)
-    public ResponseEntity<String> setAndroidDeviceId(@PathVariable(value = "userId") String userId, @PathVariable(value = "androidDeviceId") String androidDeviceId) throws UserNotFoundException, DeviceIdNotFoundException {
+    public ResponseEntity<UserDTO> setAndroidDeviceId(@PathVariable(value = "userId") String userId, @PathVariable(value = "androidDeviceId") String androidDeviceId){
         User user = userService.findOne(userId);
-        if(user == null) {
-            throw new UserNotFoundException();
+        UserDTO response = new UserDTO();
+        if (user == null) {
+            response.setStatus("failure");
+            response.setMessage("User not found.");
+            return new ResponseEntity<UserDTO>(response, HttpStatus.OK);
         }
         User updatedUser = userService.setAndroidDeviceId(user, androidDeviceId);
-        return new ResponseEntity<String>(updatedUser.getUserId(), HttpStatus.OK);
+        if (updatedUser == null) {
+            response.setStatus("failure");
+            response.setMessage("Android device id could not be updated.");
+            return new ResponseEntity<UserDTO>(response, HttpStatus.OK);
+        }
+        BeanUtils.copyProperties(updatedUser,response);
+        response.setStatus("success");
+        response.setMessage("Android Id updated");
+        return new ResponseEntity<UserDTO>(response,HttpStatus.OK);
     }
 
     @RequestMapping(value = "/setBrowserDeviceId/{userId}/{browserDeviceId}", method = RequestMethod.PUT)
-    public ResponseEntity<String> setBrowserDeviceId(@PathVariable(value = "userId") String userId, @PathVariable(value = "browserDeviceId") String browserDeviceId) throws UserNotFoundException ,DeviceIdNotFoundException{
+    public ResponseEntity<UserDTO> setBrowserDeviceId(@PathVariable(value = "userId") String userId, @PathVariable(value = "browserDeviceId") String browserDeviceId) {
         User user = userService.findOne(userId);
-        if(user == null) {
-            throw new UserNotFoundException();
+        UserDTO response = new UserDTO();
+        if (user == null) {
+            response.setStatus("failure");
+            response.setMessage("User not found.");
+            return new ResponseEntity<UserDTO>(response, HttpStatus.OK);
         }
         User updatedUser = userService.setBrowserDeviceId(user, browserDeviceId);
-        return new ResponseEntity<String>(updatedUser.getUserId(), HttpStatus.OK);
+        if (updatedUser == null) {
+            response.setStatus("failure");
+            response.setMessage("Browser device id could not be updated.");
+            return new ResponseEntity<UserDTO>(response, HttpStatus.OK);
+        }
+        BeanUtils.copyProperties(updatedUser,response);
+        response.setStatus("success");
+        response.setMessage("Browser Id updated");
+        return new ResponseEntity<UserDTO>(response,HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/setFaecbookPreference/{userId}/{facebookPreference}", method = RequestMethod.POST)
-    public ResponseEntity<String> setFacebookPreference(@PathVariable(value = "userId") String userId, @PathVariable(value = "facebookPreference") int facebookPreference) throws UserNotFoundException{
+    @RequestMapping(value = "/setFacebookPreference/{userId}/{facebookPreference}", method = RequestMethod.POST)
+    public ResponseEntity<UserDTO> setFacebookPreference(@PathVariable(value = "userId") String userId, @PathVariable(value = "facebookPreference") int facebookPreference) {
         User user = userService.findOne(userId);
-        if(user == null) {
-            throw new UserNotFoundException();
+        UserDTO response = new UserDTO();
+        if (user == null) {
+            response.setStatus("failure");
+            response.setMessage("User not found.");
+            return new ResponseEntity<UserDTO>(response, HttpStatus.OK);
         }
         User updatedUser = userService.setFacebookPreference(user, facebookPreference);
-        return new ResponseEntity<String>(updatedUser.getUserId(), HttpStatus.OK);
+        if (updatedUser == null) {
+            response.setStatus("failure");
+            response.setMessage("Facebook preference could not be updated.");
+            return new ResponseEntity<UserDTO>(response, HttpStatus.OK);
+        }
+        BeanUtils.copyProperties(updatedUser,response);
+        response.setStatus("success");
+        response.setMessage("Facebook preference updated");
+        return new ResponseEntity<UserDTO>(response,HttpStatus.OK);
     }
 
     @RequestMapping(value = "/setContestPreference/{userId}/{contestPreference}", method = RequestMethod.POST)
-    public ResponseEntity<String> setContestPreference(@PathVariable(value = "userId") String userId, @PathVariable(value = "contestPreference") int contestPreference) throws UserNotFoundException{
+    public ResponseEntity<UserDTO> setContestPreference(@PathVariable(value = "userId") String userId, @PathVariable(value = "contestPreference") int contestPreference){
         User user = userService.findOne(userId);
-        if(user == null) {
-            throw new UserNotFoundException();
+        UserDTO response = new UserDTO();
+        if (user == null) {
+            response.setStatus("failure");
+            response.setMessage("User not found.");
+            return new ResponseEntity<UserDTO>(response, HttpStatus.OK);
         }
         User updatedUser = userService.setContestPreference(user, contestPreference);
-        return new ResponseEntity<String>(updatedUser.getUserId(), HttpStatus.OK);
+        if (updatedUser == null) {
+            response.setStatus("failure");
+            response.setMessage("Contest preference could not be updated.");
+            return new ResponseEntity<UserDTO>(response, HttpStatus.OK);
+        }
+        BeanUtils.copyProperties(updatedUser,response);
+        response.setStatus("success");
+        response.setMessage("Contest preference updated");
+        return new ResponseEntity<UserDTO>(response,HttpStatus.OK);
     }
 }
