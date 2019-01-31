@@ -6,6 +6,7 @@ import com.contest.notification.dto.Header;
 import com.contest.notification.entity.NotificationData;
 import com.contest.notification.entity.Template;
 import com.contest.notification.entity.User;
+import com.contest.notification.exception.FieldsCanNotBeEmpty;
 import com.contest.notification.notificationEnum.NotificationMedium;
 import com.contest.notification.notificationMedium.Mail.MailSender;
 import com.contest.notification.notificationMedium.Sender;
@@ -40,8 +41,22 @@ public class CommentConsumer implements Consumer{
 
 
     @KafkaListener(topics="${comment.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
-    public void receiveMessage(Header header) {
+    public void receiveMessage(Header header) throws FieldsCanNotBeEmpty {
         LOGGER.info("Received:"+ header);
+
+        if(header == null)
+            throw new FieldsCanNotBeEmpty("Header Cannot Be Empty");
+
+        if(header.getReceiver() == null || header.getNotificationMedium() == null || header.getNotificationType() == null ||
+                header.getNotificationTypeBody() == null || header.getTimeStamp() == null)
+            throw new FieldsCanNotBeEmpty("Header Fields Cannot Be Empty");
+
+        Comment comment = (Comment) header.getNotificationTypeBody();
+
+        if(comment.getCommenter() == null || comment.getPostComment() == null || comment.getPostId() == null){
+            throw new FieldsCanNotBeEmpty("Notification Body Fields Cannot Be Empty");
+        }
+
         User user= userService.findOne(header.getReceiver());
         for (NotificationMedium medium: header.getNotificationMedium()) {
             Sender sender = senderFactory.getInstance(medium);

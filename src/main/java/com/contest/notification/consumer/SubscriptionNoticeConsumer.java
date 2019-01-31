@@ -4,15 +4,19 @@ package com.contest.notification.consumer;
 import com.contest.notification.dto.Header;
 import com.contest.notification.dto.Share;
 import com.contest.notification.dto.SubscriptionNotice;
+import com.contest.notification.entity.NotificationData;
 import com.contest.notification.entity.Template;
 import com.contest.notification.entity.User;
+import com.contest.notification.exception.FieldsCanNotBeEmpty;
 import com.contest.notification.notificationEnum.NotificationMedium;
 import com.contest.notification.notificationMedium.Sender;
 import com.contest.notification.notificationMedium.SenderFactory;
+import com.contest.notification.service.NotificationService;
 import com.contest.notification.service.TemplateService;
 import com.contest.notification.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -32,10 +36,27 @@ public class SubscriptionNoticeConsumer implements Consumer{
     @Autowired
     SenderFactory senderFactory;
 
+    @Autowired
+    NotificationService notificationService;
+
     @KafkaListener(topics="${subscriptionNotice.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
-    public void receiveMessage(Header header) {
+    public void receiveMessage(Header header) throws FieldsCanNotBeEmpty {
         LOGGER.info("Received:"+ header);
-        SubscriptionNotice subscriptionNotice = (SubscriptionNotice)header.getNotificationTypeBody();
+
+        if(header == null)
+            throw new FieldsCanNotBeEmpty("Header Cannot Be Empty");
+
+        if(header.getReceiver() == null || header.getNotificationMedium() == null || header.getNotificationType() == null ||
+                header.getNotificationTypeBody() == null || header.getTimeStamp() == null)
+            throw new FieldsCanNotBeEmpty("Header Fields Cannot Be Empty");
+
+        SubscriptionNotice subscriptionNotice = (SubscriptionNotice) header.getNotificationTypeBody();
+
+        if(subscriptionNotice.getContestId() == null || subscriptionNotice.getContestName() == null ||
+                subscriptionNotice.getFollowerIds().size() == 0) {
+            throw new FieldsCanNotBeEmpty("Notification Body Fields Cannot Be Empty");
+        }
+
         for (String userId: subscriptionNotice.getFollowerIds()) {
             User user= userService.findOne(userId);
             for (NotificationMedium medium: header.getNotificationMedium()) {
@@ -43,6 +64,10 @@ public class SubscriptionNoticeConsumer implements Consumer{
                 sender.send(header,processMessage(header),"Contest Subscription",user);
             }
         }
+
+        NotificationData notificationData = null;
+        BeanUtils.copyProperties(header,notificationData);
+        notificationService.addNotification(notificationData);
     }
 
     @Override

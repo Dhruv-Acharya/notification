@@ -2,17 +2,21 @@ package com.contest.notification.consumer;
 
 import com.contest.notification.dto.Contest;
 import com.contest.notification.dto.Header;
+import com.contest.notification.entity.NotificationData;
 import com.contest.notification.entity.Template;
 import com.contest.notification.entity.User;
+import com.contest.notification.exception.FieldsCanNotBeEmpty;
 import com.contest.notification.notificationEnum.NotificationMedium;
 import com.contest.notification.notificationMedium.Sender;
 import com.contest.notification.notificationMedium.SenderFactory;
 import com.contest.notification.notificationMedium.Web.WebTopicNotificationSender;
 import com.contest.notification.notificationMedium.android.AndroidTopicNotificationSender;
+import com.contest.notification.service.NotificationService;
 import com.contest.notification.service.TemplateService;
 import com.contest.notification.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -38,11 +42,29 @@ public class ContestConsumer implements Consumer{
     @Autowired
     WebTopicNotificationSender webTopicNotificationSender;
 
+    @Autowired
+    NotificationService notificationService;
+
 
     @KafkaListener(topics="${contest.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
-    public void receiveMessage(Header header) {
+    public void receiveMessage(Header header) throws FieldsCanNotBeEmpty {
         LOGGER.info("Received:"+ header);
         User user= null;
+
+        if(header == null)
+            throw new FieldsCanNotBeEmpty("Header Cannot Be Empty");
+
+        if(header.getReceiver() == null || header.getNotificationMedium() == null || header.getNotificationType() == null ||
+                header.getNotificationTypeBody() == null || header.getTimeStamp() == null)
+            throw new FieldsCanNotBeEmpty("Header Fields Cannot Be Empty");
+
+        Contest contest = (Contest) header.getNotificationTypeBody();
+
+        if(contest.getContestId() == null || contest.getContestName() == null){
+            throw new FieldsCanNotBeEmpty("Notification Body Fields can not be empty");
+        }
+
+
         for (NotificationMedium medium: header.getNotificationMedium()) {
             if (medium == NotificationMedium.ANDROID){
                 Sender sender = androidTopicNotificationSender;
@@ -59,6 +81,10 @@ public class ContestConsumer implements Consumer{
                 sender.send(header,processMessage(header),"Contest Added",user);
             }
         }
+
+        NotificationData notificationData = null;
+        BeanUtils.copyProperties(header,notificationData);
+        notificationService.addNotification(notificationData);
     }
 
     @Override
