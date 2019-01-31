@@ -2,6 +2,7 @@ package com.contest.notification.controller;
 
 
 import com.contest.notification.dto.NotificationDataDTO;
+import com.contest.notification.dto.NotificationHistoryDTO;
 import com.contest.notification.entity.NotificationData;
 import com.contest.notification.service.NotificationService;
 import org.springframework.beans.BeanUtils;
@@ -28,7 +29,7 @@ public class NotificationController {
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<List<NotificationData>> findByUserId(@PathVariable(value = "userId") String userId) {
+    public ResponseEntity<List<NotificationHistoryDTO>> findByUserId(@PathVariable(value = "userId") String userId) {
          return new ResponseEntity<>(notificationService.findByUserId(userId),HttpStatus.OK);
     }
 
