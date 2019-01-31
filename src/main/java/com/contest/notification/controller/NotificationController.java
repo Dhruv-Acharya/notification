@@ -32,4 +32,14 @@ public class NotificationController {
          return new ResponseEntity<>(notificationService.findByUserId(userId),HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/markRead/{notificationId}", method = RequestMethod.PUT)
+    public ResponseEntity<Boolean> markRead(@PathVariable(value = "notificationId") String notificationId) {
+        NotificationData notificationData = notificationService.findOne(notificationId);
+        if (notificationService.markRead(notificationData)) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        }
+    }
 }
