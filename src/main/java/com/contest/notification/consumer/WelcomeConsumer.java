@@ -5,6 +5,9 @@ import com.contest.notification.dto.SubscriptionNotice;
 import com.contest.notification.dto.Welcome;
 import com.contest.notification.entity.Template;
 import com.contest.notification.entity.User;
+import com.contest.notification.notificationEnum.NotificationMedium;
+import com.contest.notification.notificationMedium.Sender;
+import com.contest.notification.notificationMedium.SenderFactory;
 import com.contest.notification.service.TemplateService;
 import com.contest.notification.service.UserService;
 import org.slf4j.Logger;
@@ -23,9 +26,17 @@ public class WelcomeConsumer implements Consumer {
     @Autowired
     UserService userService;
 
+    @Autowired
+    SenderFactory senderFactory;
+
     @KafkaListener(topics="${welcome.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
     public void receiveMessage(Header header) {
         LOGGER.info("Received:"+ header);
+        User user= userService.findOne(header.getReceiver());
+        for (NotificationMedium medium: header.getNotificationMedium()) {
+            Sender sender = senderFactory.getInstance(medium);
+            sender.send(header,processMessage(header),"Welcome",user);
+        }
     }
 
     @Override

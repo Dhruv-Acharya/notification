@@ -1,10 +1,17 @@
 package com.contest.notification.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class Result extends NotificationBodyAbstractClass {
+    @NotNull
     private String userId;
+    @NotNull
     private double score;
+    @NotNull
     private String rank;
+    @NotNull
     private String url;
+    @NotNull
     private Contest contest;
 
     public Contest getContest() {

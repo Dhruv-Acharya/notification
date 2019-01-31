@@ -3,7 +3,14 @@ package com.contest.notification.consumer;
 import com.contest.notification.dto.Contest;
 import com.contest.notification.dto.Header;
 import com.contest.notification.entity.Template;
+import com.contest.notification.entity.User;
+import com.contest.notification.notificationEnum.NotificationMedium;
+import com.contest.notification.notificationMedium.Sender;
+import com.contest.notification.notificationMedium.SenderFactory;
+import com.contest.notification.notificationMedium.Web.WebTopicNotificationSender;
+import com.contest.notification.notificationMedium.android.AndroidTopicNotificationSender;
 import com.contest.notification.service.TemplateService;
+import com.contest.notification.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +26,39 @@ public class ContestConsumer implements Consumer{
     @Autowired
     TemplateService templateService;
 
+    @Autowired
+    AndroidTopicNotificationSender androidTopicNotificationSender;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    SenderFactory senderFactory;
+
+    @Autowired
+    WebTopicNotificationSender webTopicNotificationSender;
+
 
     @KafkaListener(topics="${contest.kafka.topic}",containerFactory = "HeaderKafkaListenerContainerFactory")
     public void receiveMessage(Header header) {
         LOGGER.info("Received:"+ header);
+        User user= null;
+        for (NotificationMedium medium: header.getNotificationMedium()) {
+            if (medium == NotificationMedium.ANDROID){
+                Sender sender = androidTopicNotificationSender;
+                sender.send(header,processMessage(header),"Contest Added",user);
+            }
+            else if (medium == NotificationMedium.EMAIL){
+                for (User existingUser :userService.findAll()) {
+                    Sender sender = new SenderFactory().getInstance(medium);
+                    sender.send(header,processMessage(header),"Contest Added",existingUser);
+                }
+            }
+            else if (medium == NotificationMedium.WEB){
+                Sender sender = webTopicNotificationSender;
+                sender.send(header,processMessage(header),"Contest Added",user);
+            }
+        }
     }
 
     @Override

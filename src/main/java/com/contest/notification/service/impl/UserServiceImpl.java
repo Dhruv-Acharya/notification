@@ -8,6 +8,8 @@ import com.contest.notification.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -67,5 +69,10 @@ public class UserServiceImpl implements UserService {
     public User setContestPreference(User user, int preference) {
         user.setContestPreference(preference);
         return userRepository.save(user);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }
