@@ -63,7 +63,7 @@ public class ShareConsumer implements Consumer{
             sender.send(header,processMessage(header),"Shared",user);
         }
 
-        NotificationData notificationData = null;
+        NotificationData notificationData = new NotificationData();
         BeanUtils.copyProperties(header,notificationData);
         notificationService.addNotification(notificationData);
     }

@@ -65,7 +65,7 @@ public class SubscriptionNoticeConsumer implements Consumer{
             }
         }
 
-        NotificationData notificationData = null;
+        NotificationData notificationData = new NotificationData();
         BeanUtils.copyProperties(header,notificationData);
         notificationService.addNotification(notificationData);
     }

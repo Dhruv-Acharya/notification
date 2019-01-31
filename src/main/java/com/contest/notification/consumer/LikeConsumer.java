@@ -63,7 +63,7 @@ public class LikeConsumer implements Consumer{
             sender.send(header,processMessage(header),"Liked",user);
         }
 
-        NotificationData notificationData = null;
+        NotificationData notificationData = new NotificationData();
         BeanUtils.copyProperties(header,notificationData);
         notificationService.addNotification(notificationData);
     }
@@ -78,7 +78,7 @@ public class LikeConsumer implements Consumer{
 
         List<String> replacementArray = new ArrayList<>();
         Like like = (Like)header.getNotificationTypeBody();
-        replacementArray.add(like.getSender());
+        replacementArray.add(userService.findOne(like.getSender()).getUserName());
 
         int i=0;
         LOGGER.info("Template : {}" , str);

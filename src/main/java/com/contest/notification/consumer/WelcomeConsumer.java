@@ -18,10 +18,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Service
 public class WelcomeConsumer implements Consumer {
 
     @Autowired
@@ -54,7 +55,7 @@ public class WelcomeConsumer implements Consumer {
             sender.send(header,processMessage(header),"Welcome",user);
         }
 
-        NotificationData notificationData = null;
+        NotificationData notificationData = new NotificationData();
         BeanUtils.copyProperties(header,notificationData);
         notificationService.addNotification(notificationData);
     }
