@@ -8,5 +8,6 @@ public interface NotificationService {
 
     NotificationData addNotification (NotificationData notificationData);
     List<NotificationData> findByUserId(String userId);
-
+    NotificationData findOne(String notificationId);
+    Boolean markRead(NotificationData notificationData);
 }
