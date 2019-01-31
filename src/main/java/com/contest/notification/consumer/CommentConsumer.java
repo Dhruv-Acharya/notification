@@ -42,7 +42,6 @@ public class CommentConsumer implements Consumer{
         User user= userService.findOne(header.getReceiver());
         for (NotificationMedium medium: header.getNotificationMedium()) {
             Sender sender = senderFactory.getInstance(medium);
-            //MailSender mailSender = new MailSender();
             sender.send(header,processMessage(header),"Comment Received",user);
         }
     }

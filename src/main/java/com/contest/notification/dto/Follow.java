@@ -1,6 +1,9 @@
 package com.contest.notification.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class Follow extends NotificationBodyAbstractClass {
+    @NotNull
     private String sender;
 
     public String getSender() {
