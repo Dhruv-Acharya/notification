@@ -88,4 +88,10 @@ public class UserServiceImpl implements UserService {
         }
         return userList;
     }
+
+    @Override
+    public User deleteUser(String userId) throws Exception {
+        userRepository.delete(userId);
+        return findOne(userId);
+    }
 }

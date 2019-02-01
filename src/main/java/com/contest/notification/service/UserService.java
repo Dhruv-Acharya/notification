@@ -8,6 +8,7 @@ public interface UserService {
     User addUser(User user);
     User findOne(String userId) throws Exception;
     User updateUser(User user);
+    User deleteUser(String userId) throws Exception;
     List<User> findAll() throws Exception;
     User setAndroidDeviceId(User user, String androidDeviceId);
     User setBrowserDeviceId(User user, String browserDeviceId);

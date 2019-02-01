@@ -18,6 +18,19 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
+    public ResponseEntity<UserDTO> deleteUser(@PathVariable(value="userId") String userId) throws Exception{
+        UserDTO userDTO = new UserDTO();
+        User user = userService.deleteUser(userId);
+        if( user == null){
+            userDTO.setStatus("200");
+            userDTO.setMessage("User Deleted");
+        }else{
+            BeanUtils.copyProperties(user,userDTO);
+        }
+        return new ResponseEntity<>(userDTO,HttpStatus.OK);
+    }
+
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO) {
         User user = new User();
