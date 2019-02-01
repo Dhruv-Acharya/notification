@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,10 +33,12 @@ public class NotificationController {
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     public ResponseEntity<NotificationDTO> findByUserId(@PathVariable(value = "userId") String userId) throws Exception {
         NotificationDTO notificationDTO = new NotificationDTO();
+
         List<NotificationHistoryDTO> notificationHistoryDTOList= notificationService.findByUserId(userId);
         if (notificationHistoryDTOList.size()==0){
             notificationDTO.setStatus(false);
             notificationDTO.setMessage("No notifications found.");
+            notificationDTO.setNotificationHistoryDTOList(notificationHistoryDTOList);
             return new ResponseEntity<>(notificationDTO,HttpStatus.OK);
         }
         notificationDTO.setStatus(true);
