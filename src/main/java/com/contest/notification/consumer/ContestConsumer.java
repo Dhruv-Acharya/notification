@@ -77,8 +77,6 @@ public class ContestConsumer implements Consumer{
             else if (medium == NotificationMedium.EMAIL){
                 for (User existingUser :userService.findAll()) {
                     Sender sender = mailSender;
-                    LOGGER.info("existingUser"+existingUser.toString());
-                    LOGGER.info("header"+header.toString());
                     sender.send(header,processMessage(header),"Contest Added",existingUser);
                 }
             }
@@ -107,7 +105,6 @@ public class ContestConsumer implements Consumer{
         replacementArray.add(contest.getContestName());
 
         int i=0;
-        LOGGER.info("Template : {}" , str);
         while(true) {
 
             int startIndex = str.indexOf("<",endIndex);
@@ -123,7 +120,6 @@ public class ContestConsumer implements Consumer{
             }
 
         }
-        LOGGER.info("Final String : {}" , str);
         return str;
     }
 

@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/notification")
+@CrossOrigin("*")
 public class NotificationController {
 
     @Autowired
@@ -46,7 +47,23 @@ public class NotificationController {
         notificationDTO.setNotificationHistoryDTOList(notificationHistoryDTOList);
         return new ResponseEntity<>(notificationDTO,HttpStatus.OK);
     }
+    @RequestMapping(value = "/{userId}/{pageSize}", method = RequestMethod.GET)
+    public ResponseEntity<NotificationDTO> findByUserIdPageable(@PathVariable(value = "userId") String userId, @PathVariable(value = "pageSize")int pageSize) throws Exception {
+        NotificationDTO notificationDTO = new NotificationDTO();
 
+        List<NotificationHistoryDTO> notificationHistoryDTOList= notificationService.findByUserIdPagenation(userId,pageSize);
+        if (notificationHistoryDTOList.size()==0){
+            notificationDTO.setStatus(false);
+            notificationDTO.setMessage("No notifications found.");
+            notificationDTO.setNotificationHistoryDTOList(notificationHistoryDTOList);
+            return new ResponseEntity<>(notificationDTO,HttpStatus.OK);
+        }
+        notificationDTO.setStatus(true);
+        notificationDTO.setMessage("success");
+        notificationDTO.setNotificationHistoryDTOList(notificationHistoryDTOList);
+        return new ResponseEntity<>(notificationDTO,HttpStatus.OK);
+    }
+    @CrossOrigin("*")
     @RequestMapping(value = "/markRead/{notificationId}", method = RequestMethod.PUT)
     public ResponseEntity<Boolean> markRead(@PathVariable(value = "notificationId") String notificationId) {
         NotificationData notificationData = notificationService.findOne(notificationId);

@@ -25,7 +25,5 @@ public class WebTopicNotificationSender implements Sender {
         } catch (FirebaseMessagingException e) {
             e.printStackTrace();
         }
-
-
     }
 }
