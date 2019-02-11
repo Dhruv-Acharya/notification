@@ -56,12 +56,12 @@ public class SubscriptionNoticeConsumer implements Consumer{
                 subscriptionNotice.getFollowerIds().size() == 0) {
             throw new FieldsCanNotBeEmpty("Notification Body Fields Cannot Be Empty");
         }
-
+        String message = processMessage(header);
         for (String userId: subscriptionNotice.getFollowerIds()) {
             User user= userService.findOne(userId);
             for (NotificationMedium medium: header.getNotificationMedium()) {
                 Sender sender = senderFactory.getInstance(medium);
-                sender.send(header,processMessage(header),"Contest Subscription",user);
+                sender.send(header,message,"Contest Subscription",user);
             }
         }
 
